@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบสอบถามการควบคุมงานค้างที่ได้รับมอบตามโครงการเดินสำรวจออกโฉนดที่ดิน</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1a2e4a;
+    --gold: #c9a84c;
+    --gold-light: #f5ecd1;
+    --blue: #2d5f8a;
+    --blue-light: #e8f1f8;
+    --gray-bg: #f7f8fa;
+    --gray-border: #dde2ea;
+    --text: #1e2d3d;
+    --text-muted: #6b7a8d;
+    --white: #ffffff;
+    --green: #2d7a4f;
+    --green-light: #e6f4ed;
+    --red: #c0392b;
+  }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    padding: 32px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 40px,
+      rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 80px
+    );
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .header h1 {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .header h2 {
+    color: rgba(255,255,255,0.75);
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+  }
+  .gold-line {
+    width: 48px; height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+    margin: 14px auto 0;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    background: white;
+    border-bottom: 1px solid var(--gray-border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--gold));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    min-width: 60px;
+  }
+
+  /* Container */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* Intro card */
+  .intro-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--gray-border);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--gold);
+  }
+  .intro-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .intro-note {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  /* Office select */
+  .office-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--gray-border);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .office-card label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .office-card input {
+    width: 100%;
+    border: 1.5px solid var(--gray-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 15px;
+    font-family: 'Sarabun', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .office-card input:focus { border-color: var(--blue); }
+
+  /* Question card */
+  .q-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--gray-border);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s;
+  }
+  .q-card:focus-within {
+    box-shadow: 0 0 0 2px rgba(45,95,138,0.15);
+    border-color: var(--blue);
+  }
+  .q-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .q-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .req { color: var(--red); margin-left: 3px; }
+
+  /* Radio / Checkbox */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--gray-border);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+  }
+  .opt-label:hover { border-color: var(--blue); background: var(--blue-light); }
+  .opt-label input[type=radio], .opt-label input[type=checkbox] { accent-color: var(--blue); width: 16px; height: 16px; flex-shrink: 0; }
+  .opt-label.selected { border-color: var(--blue); background: var(--blue-light); }
+
+  /* Sub-questions (conditional) */
+  .sub-group {
+    display: none;
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: var(--gray-bg);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+    gap: 12px;
+    flex-direction: column;
+  }
+  .sub-group.show { display: flex; }
+  .sub-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .sub-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  /* Inputs */
+  input[type=text], input[type=number], input[type=date], textarea, select {
+    width: 100%;
+    border: 1.5px solid var(--gray-border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: 'Sarabun', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    background: white;
+  }
+  input[type=text]:focus, input[type=number]:focus, input[type=date]:focus,
+  textarea:focus, select:focus { border-color: var(--blue); }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* Number row */
+  .num-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+  }
+  .num-row span {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* Grid for ข้อ 8 */
+  .data-grid { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .data-grid th {
+    background: var(--navy);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  .data-grid td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--gray-border);
+    font-size: 13px;
+  }
+  .data-grid tr:nth-child(even) td { background: var(--gray-bg); }
+  .data-grid input[type=number] {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  .data-grid .row-label {
+    font-weight: 500;
+    color: var(--text);
+    background: var(--gold-light) !important;
+    font-size: 12px;
+  }
+  .cat-header td {
+    background: var(--blue-light) !important;
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  /* Other text input */
+  .other-input {
+    display: none;
+    margin-top: 8px;
+  }
+  .other-input.show { display: block; }
+
+  /* Submit */
+  .submit-area {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 48px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Sarabun', sans-serif;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(26,46,74,0.3);
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26,46,74,0.4);
+  }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* Success */
+  .success-msg {
+    display: none;
+    background: var(--green-light);
+    border: 1.5px solid var(--green);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  .success-msg h3 { color: var(--green); font-size: 18px; margin-bottom: 8px; }
+  .success-msg p { color: var(--text-muted); font-size: 14px; }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 14px;
+  }
+  .section-divider span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-border);
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 18px; }
+    .num-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="formPage">
+<div class="header">
+  <div class="header-badge">กลุ่มตรวจสอบภายใน · กรมที่ดิน</div>
+  <h1>แบบสอบถามการควบคุมงานค้าง<br>ที่ได้รับมอบตามโครงการเดินสำรวจออกโฉนดที่ดิน</h1>
+  <h2>โปรดตอบตามข้อเท็จจริงและข้อมูลปัจจุบันของสำนักงานท่าน</h2>
+  <div class="gold-line"></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 13 ข้อ</div>
+</div>
+
+<div class="container">
+
+  <div class="intro-card">
+    <p>กลุ่มตรวจสอบภายในจะดำเนินการรวบรวมระบบการควบคุมงานค้างดำเนินการที่ได้รับมอบจากศูนย์เดินสำรวจออกโฉนดที่ดิน โดยมีวัตถุประสงค์เพื่อทราบว่าสำนักงานที่ดินมีวิธีการควบคุมอย่างไร และใช้เป็นข้อมูลในการเข้าดำเนินการตรวจสอบ จึงขอความร่วมมือจากผู้รับผิดชอบในการควบคุมดูแลเรื่องดังกล่าวตอบแบบสอบถามที่ส่งมานี้ตามข้อเท็จจริง เพื่อประโยชน์ในการประเมินผลการควบคุมได้อย่างสอดคล้องกับสภาพความเป็นจริง</p>
+    <div class="intro-note">☑ โปรดทำเครื่องหมาย ✓ และเติมข้อความในช่องว่าง</div>
+  </div>
+
+  <!-- Office name -->
+  <div class="office-card">
+    <label>จังหวัด <span class="req">*</span></label>
+    <select id="officeProvince" onchange="onProvinceChange()">
+      <option value="">-- เลือกจังหวัด --</option>
+      <option value="กระบี่">กระบี่</option>
+      <option value="กาญจนบุรี">กาญจนบุรี</option>
+      <option value="กาฬสินธุ์">กาฬสินธุ์</option>
+      <option value="ขอนแก่น">ขอนแก่น</option>
+      <option value="ชัยภูมิ">ชัยภูมิ</option>
+      <option value="ชุมพร">ชุมพร</option>
+      <option value="ตรัง">ตรัง</option>
+      <option value="นครพนม">นครพนม</option>
+      <option value="นครศรีธรรมราช">นครศรีธรรมราช</option>
+      <option value="น่าน">น่าน</option>
+      <option value="บึงกาฬ">บึงกาฬ</option>
+      <option value="บุรีรัมย์">บุรีรัมย์</option>
+      <option value="พังงา">พังงา</option>
+      <option value="พัทลุง">พัทลุง</option>
+      <option value="เพชรบุรี">เพชรบุรี</option>
+      <option value="เพชรบูรณ์">เพชรบูรณ์</option>
+      <option value="มหาสารคาม">มหาสารคาม</option>
+      <option value="มุกดาหาร">มุกดาหาร</option>
+      <option value="ยโสธร">ยโสธร</option>
+      <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
+      <option value="ระนอง">ระนอง</option>
+      <option value="ราชบุรี">ราชบุรี</option>
+      <option value="ลำปาง">ลำปาง</option>
+      <option value="ลำพูน">ลำพูน</option>
+      <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+      <option value="สกลนคร">สกลนคร</option>
+      <option value="สงขลา">สงขลา</option>
+      <option value="สตูล">สตูล</option>
+      <option value="สุพรรณบุรี">สุพรรณบุรี</option>
+      <option value="สุรินทร์">สุรินทร์</option>
+      <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
+      <option value="หนองคาย">หนองคาย</option>
+      <option value="หนองบัวลำภู">หนองบัวลำภู</option>
+      <option value="เชียงราย">เชียงราย</option>
+      <option value="แพร่">แพร่</option>
+      <option value="อำนาจเจริญ">อำนาจเจริญ</option>
+      <option value="อุดรธานี">อุดรธานี</option>
+      <option value="อุบลราชธานี">อุบลราชธานี</option>
+    </select>
+    <label style="margin-top:14px;">สำนักงานที่ดิน <span class="req">*</span></label>
+    <select id="officeName" onchange="updateProgress()" disabled>
+      <option value="">-- กรุณาเลือกจังหวัดก่อน --</option>
+    </select>
+  </div>
+
+  <div class="section-divider"><span>แบบสอบถาม 13 ข้อ</span></div>
+
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">1</span>
+      <div class="q-title">มีคำสั่งมอบหมายเจ้าหน้าที่ผู้รับผิดชอบการรับมอบโฉนดที่ดินค้างแจก / ค้างลงนาม และงานขัดข้อง ของศูนย์เดินสำรวจออกโฉนดที่ดิน <span class="req">*</span></div>
+    </div>
+    <div class="options">
+      <label class="opt-label" onclick="toggleSub('q1-sub', 'q1-yes', this)">
+        <input type="radio" name="q1" value="มี" id="q1-yes" onchange="updateProgress()"> มี
+      </label>
+      <div class="sub-group" id="q1-sub">
+        <div>
+          <div class="sub-label">ฝ่าย / งาน</div>
+          <input type="text" id="q1_dept" placeholder="ระบุฝ่าย/งาน...">
+        </div>
+        <div>
+          <div class="sub-label">โดย (ระบุชื่อผู้รับผิดชอบ)</div>
+          <input type="text" id="q1_name" placeholder="ระบุชื่อ...">
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q1-sub', this)">
+        <input type="radio" name="q1" value="ไม่มี" onchange="updateProgress()"> ไม่มี
+      </label>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">2</span>
+      <div class="q-title">การรับมอบโฉนดที่ดินที่ค้างแจก / ค้างลงนาม และงานขัดข้อง จากศูนย์ฯ มีการตรวจสอบจำนวนแปลงที่รับมอบตรงกับรายการบัญชีส่งมอบ (น.ส.17) และรายการตามแบบหมายอักษร จ. <span class="req">*</span></div>
+    </div>
+    <div class="options">
+      <label class="opt-label" onclick="hideOther('q2other', this)"><input type="radio" name="q2" value="มีการตรวจสอบ" onchange="updateProgress()"> มีการตรวจสอบ</label>
+      <label class="opt-label" onclick="hideOther('q2other', this)"><input type="radio" name="q2" value="ไม่มีการตรวจสอบ" onchange="updateProgress()"> ไม่มีการตรวจสอบ</label>
+      <label class="opt-label" onclick="hideOther('q2other', this)"><input type="radio" name="q2" value="สุ่มตรวจสอบ" onchange="updateProgress()"> สุ่มตรวจสอบ เนื่องจากศูนย์ทยอยส่งมอบ</label>
+      <label class="opt-label" onclick="toggleOther('q2other', this)">
+        <input type="radio" name="q2" value="อื่นๆ" onchange="updateProgress()"> อื่น ๆ ระบุ
+      </label>
+      <div class="other-input" id="q2other">
+        <input type="text" placeholder="ระบุรายละเอียด...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">3</span>
+      <div class="q-title">โฉนดที่ดินค้างแจก / ค้างลงนาม และงานขัดข้อง ที่รับมอบจากศูนย์ฯ มีการจัดเก็บไว้ที่ใด <span class="req">*</span></div>
+    </div>
+    <textarea id="q3" placeholder="ระบุสถานที่จัดเก็บ..." rows="3" oninput="updateProgress()"></textarea>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">4</span>
+      <div class="q-title">โฉนดที่ดินที่รับมอบจากศูนย์เดินสำรวจออกโฉนดที่ดิน กรณีค้างแจก ค้างลงนาม งานขัดข้อง มีสาเหตุเกิดจาก (ตอบได้มากกว่า 1 ข้อ) <span class="req">*</span></div>
+    </div>
+
+    <div style="font-weight:600;font-size:13px;color:var(--blue);margin-bottom:8px;">● งานค้างแจก</div>
+    <div class="options">
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ติดต่อราษฎรไม่ได้" onchange="updateProgress()"> ติดต่อราษฎรไม่ได้</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ติดจำนองกับธนาคาร"> ติดจำนองกับธนาคาร</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ราษฎรไม่มารับภายในกำหนด"> ราษฎรไม่มารับโฉนดที่ดินภายในกำหนด</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ผู้ขอออกโฉนดตาย"> ผู้ขอออกโฉนดที่ดินตาย</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ธนาคารยึดที่ดิน"> ถูกธนาคารยึดที่ดินแล้ว และธนาคารไม่มาติดต่อขอรับโฉนดที่ดิน</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="นำไปค้ำประกัน"> นำไปค้ำประกันเงินกู้</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ใช้เป็นหลักทรัพย์ประกันตัว"> ใช้เป็นหลักทรัพย์ประกันตัวผู้ต้องหา</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="อยู่ระหว่างขายทอดตลาด"> อยู่ระหว่างการขายทอดตลาด</label>
+      <label class="opt-label"><input type="checkbox" name="q4a" value="ส่งคืนศูนย์แก้ไข"> ส่งคืนศูนย์ฯ ดำเนินการแก้ไขให้ครบถ้วน (การรังวัดไม่ถูกต้อง / น.ส.5 ไม่กรอกรายละเอียด ฯลฯ)</label>
+      <label class="opt-label" onclick="toggleOther('q4a-other', this)"><input type="checkbox" name="q4a" value="อื่นๆ"> อื่น ๆ ระบุ</label>
+      <div class="other-input" id="q4a-other"><input type="text" placeholder="ระบุ..."></div>
+    </div>
+
+    <div style="font-weight:600;font-size:13px;color:var(--blue);margin:14px 0 8px;">● งานค้างลงนาม</div>
+    <div class="options">
+      <label class="opt-label"><input type="checkbox" name="q4b" value="อยู่ระหว่างประกาศ"> อยู่ระหว่างดำเนินการประกาศ</label>
+      <label class="opt-label"><input type="checkbox" name="q4b" value="มีภาระติดพัน"> มีภาระติดพันต้องจดทะเบียนแบ่งแยก ณ สำนักงานที่ดินท้องที่</label>
+      <label class="opt-label"><input type="checkbox" name="q4b" value="ส่งคืนศูนย์แก้ไข(ลงนาม)"> ส่งคืนศูนย์ฯ ดำเนินการแก้ไขให้ครบถ้วน (การรังวัดไม่ถูกต้อง / ผู้กำกับไม่ลงนาม ฯลฯ)</label>
+      <label class="opt-label" onclick="toggleOther('q4b-other', this)"><input type="checkbox" name="q4b" value="อื่นๆ"> อื่น ๆ ระบุ</label>
+      <div class="other-input" id="q4b-other"><input type="text" placeholder="ระบุ..."></div>
+    </div>
+
+    <div style="font-weight:600;font-size:13px;color:var(--blue);margin:14px 0 8px;">● งานขัดข้อง</div>
+    <div class="options">
+      <label class="opt-label"><input type="checkbox" name="q4c" value="ติดเขตป่า"> ที่ดินติดเขตป่า</label>
+      <label class="opt-label"><input type="checkbox" name="q4c" value="เป็นที่สาธารณะ"> เป็นที่สาธารณะ</label>
+      <label class="opt-label"><input type="checkbox" name="q4c" value="อยู่ในเขตทหาร"> อยู่ในเขตทหาร</label>
+      <label class="opt-label"><input type="checkbox" name="q4c" value="อยู่ในเขต สปก"> อยู่ในเขต สปก.</label>
+      <label class="opt-label"><input type="checkbox" name="q4c" value="ออกโฉนดไม่ถูกต้อง"> ดำเนินการออกโฉนดไม่ถูกต้องตามระเบียบ</label>
+      <label class="opt-label" onclick="toggleOther('q4c-other', this)"><input type="checkbox" name="q4c" value="อื่นๆ"> อื่น ๆ ระบุ</label>
+      <div class="other-input" id="q4c-other"><input type="text" placeholder="ระบุ..."></div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">5</span>
+      <div class="q-title">ระบบการควบคุม <span class="req">*</span></div>
+    </div>
+
+    <!-- หัวข้อ ก: โฉนดที่ดินค้างแจก -->
+    <div style="font-weight:600;font-size:13px;color:var(--blue);margin-bottom:8px;">● โฉนดที่ดินค้างแจก/ค้างลงนาม ที่รับมอบตามรายการในแบบ น.ส.17</div>
+    <div class="options">
+      <label class="opt-label" onclick="toggleSub('q5a-sub', 'q5a-has', this)">
+        <input type="radio" name="q5a_hasorno" value="มี" id="q5a-has" onchange="updateProgress()"> มี
+      </label>
+      <div class="sub-group" id="q5a-sub">
+        <div class="options">
+          <label class="opt-label" onclick="hideQ5aOthers(this)"><input type="radio" name="q5a" value="จัดทำทะเบียนคุมทุกแปลง" onchange="updateProgress()"> มีการจัดทำทะเบียนคุมไว้ เมื่อได้รับมอบจากศูนย์ฯ ทุกแปลง</label>
+          <label class="opt-label" onclick="hideQ5aOthers(this)"><input type="radio" name="q5a" value="ใช้ น.ส.17 เป็นบัญชีควบคุม" onchange="updateProgress()"> ใช้แบบ น.ส.17 เป็นบัญชีควบคุม</label>
+          <label class="opt-label" onclick="hideQ5aOthers(this)"><input type="radio" name="q5a" value="จัดทำเฉพาะค้างแจกค้างลงนาม" onchange="updateProgress()"> จัดทำรายการบัญชีควบคุมไว้เฉพาะโฉนดที่ดินค้างแจกและค้างลงนามคงเหลือเท่านั้น</label>
+          <label class="opt-label" onclick="hideQ5aOthers(this)"><input type="radio" name="q5a" value="ใช้แบบรายงานผลการแจก" onchange="updateProgress()"> ใช้แบบรายงานผลการแจกโฉนดที่ดิน (รายงานกรมทุกเดือน) เป็นบัญชีควบคุม</label>
+          <label class="opt-label" onclick="toggleOther('q5a-other', this)"><input type="radio" name="q5a" value="อื่นๆ" onchange="updateProgress()"> อื่น ๆ ระบุ</label>
+          <div class="other-input" id="q5a-other"><input type="text" placeholder="ระบุ..."></div>
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q5a-sub', this)">
+        <input type="radio" name="q5a_hasorno" value="ไม่มี" onchange="updateProgress()"> ไม่มี
+      </label>
+    </div>
+
+    <!-- หัวข้อ ข: งานขัดข้อง -->
+    <div style="font-weight:600;font-size:13px;color:var(--blue);margin:14px 0 8px;">● งานขัดข้อง ที่รับมอบจากศูนย์ฯ ตามแบบ น.ส.20 ในแบบหมายอักษร จ.</div>
+    <div class="options">
+      <label class="opt-label" onclick="toggleSub('q5b-sub', 'q5b-has', this)">
+        <input type="radio" name="q5b_hasorno" value="มี" id="q5b-has" onchange="updateProgress()"> มี
+      </label>
+      <div class="sub-group" id="q5b-sub">
+        <div class="options">
+          <label class="opt-label" onclick="hideQ5bOthers(this)"><input type="radio" name="q5b" value="จัดทำทะเบียนคุมรายแปลง" onchange="updateProgress()"> มีการจัดทำทะเบียนคุมไว้เป็นรายแปลงตามจำนวนที่ได้รับมอบจากศูนย์ฯ</label>
+          <label class="opt-label" onclick="hideQ5bOthers(this)"><input type="radio" name="q5b" value="ใช้แบบหมาย จ เป็นบัญชีควบคุม" onchange="updateProgress()"> ใช้รายการตามแบบหมายอักษร จ. เป็นบัญชีควบคุม</label>
+          <label class="opt-label" onclick="hideQ5bOthers(this)"><input type="radio" name="q5b" value="รับมอบแต่ไม่จัดทำบัญชีคุม" onchange="updateProgress()"> รับมอบจากศูนย์ฯ แล้วจัดเก็บไว้โดยไม่ได้จัดทำบัญชีคุมไว้</label>
+          <label class="opt-label" onclick="toggleOther('q5b-other', this)"><input type="radio" name="q5b" value="อื่นๆ" onchange="updateProgress()"> อื่น ๆ ระบุ</label>
+          <div class="other-input" id="q5b-other"><input type="text" placeholder="ระบุ..."></div>
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q5b-sub', this)">
+        <input type="radio" name="q5b_hasorno" value="ไม่มี" onchange="updateProgress()"> ไม่มี
+      </label>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">6</span>
+      <div class="q-title">กรณีงานขัดข้องบางแปลง จะต้องนำไปดำเนินการต่อโดยกลุ่มงานวิชาการ หรือฝ่ายรังวัด หรือผู้ที่เกี่ยวข้อง ท่านมีวิธีการควบคุมอย่างไร เพื่อให้รู้ว่าเอกสารดังกล่าวอยู่ที่ผู้ใด <span class="req">*</span></div>
+    </div>
+    <textarea id="q6" placeholder="อธิบายวิธีการควบคุม..." rows="4" oninput="updateProgress()"></textarea>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">7</span>
+      <div class="q-title">กรณีมีการแจกโฉนดที่ดิน หรือราษฎรมารับที่สำนักงานที่ดิน มีระบบการควบคุมอย่างไร <span class="req">*</span></div>
+    </div>
+    <div class="options" id="q7-options">
+      <label class="opt-label" onclick="hideOther('q7other', this)"><input type="radio" name="q7" value="ขีดฆ่าในบัญชีควบคุม" onchange="updateProgress()"> ขีดฆ่าในบัญชีควบคุมโฉนดที่ดินค้างแจกและค้างลงนามคงเหลือที่จัดทำไว้</label>
+      <label class="opt-label" onclick="hideOther('q7other', this)"><input type="radio" name="q7" value="บันทึกในระบบคอมพิวเตอร์" onchange="updateProgress()"> บันทึกในระบบคอมพิวเตอร์ที่จัดทำรายการควบคุมไว้ โดยลบโฉนดที่ดินที่แจกคงเหลือเฉพาะโฉนดที่ค้างแจกเท่านั้น</label>
+      <label class="opt-label" onclick="hideOther('q7other', this)"><input type="radio" name="q7" value="บันทึกในทะเบียนคุม" onchange="updateProgress()"> บันทึกในทะเบียนคุมว่าได้มีการแจกโฉนดที่ดินให้กับราษฎรแล้ว</label>
+      <label class="opt-label" onclick="hideOther('q7other', this)"><input type="radio" name="q7" value="ไม่มีการบันทึก" onchange="updateProgress()"> ไม่มีการบันทึกการแจกโฉนดที่ดินไว้ แต่นำไปลดยอดในแบบรายงานผลการแจกฯ ที่รายงานกรมทุกสิ้นเดือน</label>
+      <label class="opt-label" onclick="toggleOther('q7other', this)"><input type="radio" name="q7" value="อื่นๆ" onchange="updateProgress()"> อื่น ๆ ระบุ</label>
+      <div class="other-input" id="q7other"><input type="text" placeholder="ระบุ..."></div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">8</span>
+      <div class="q-title">โฉนดที่ดินค้างแจก / ค้างลงนาม และงานขัดข้อง ที่รับมอบจากศูนย์ฯ ประจำปีงบประมาณ พ.ศ. 2567 - 2568 <span class="req">*</span></div>
+    </div>
+    <table class="data-grid">
+      <thead>
+        <tr>
+          <th style="width:40%">รายการ</th>
+          <th>ปีงบ 2567 (แปลง)</th>
+          <th>ปีงบ 2568 (แปลง)</th>
+          <th>รวมทั้งสิ้น (แปลง)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-header"><td colspan="4">โฉนดที่ดินค้างแจก</td></tr>
+        <tr>
+          <td class="row-label">รับมอบ</td>
+          <td><input type="number" id="q8_a1" min="0" placeholder="0" oninput="calcTotal('q8_a')"></td>
+          <td><input type="number" id="q8_a2" min="0" placeholder="0" oninput="calcTotal('q8_a')"></td>
+          <td><input type="number" id="q8_a_total" readonly style="background:#f0f4f8;font-weight:700;"></td>
+        </tr>
+        <tr>
+          <td class="row-label">ยอดคงเหลือ ณ ปัจจุบัน</td>
+          <td colspan="2"><input type="date" id="q8_a_date" style="max-width:180px;" onchange="onNativeDateChange('q8_a_date')"></td>
+          <td><input type="number" id="q8_a_remain" min="0" placeholder="0" oninput="updateProgress()"></td>
+        </tr>
+        <tr class="cat-header"><td colspan="4">โฉนดที่ดินค้างลงนาม</td></tr>
+        <tr>
+          <td class="row-label">รับมอบ</td>
+          <td><input type="number" id="q8_b1" min="0" placeholder="0" oninput="calcTotal('q8_b')"></td>
+          <td><input type="number" id="q8_b2" min="0" placeholder="0" oninput="calcTotal('q8_b')"></td>
+          <td><input type="number" id="q8_b_total" readonly style="background:#f0f4f8;font-weight:700;"></td>
+        </tr>
+        <tr>
+          <td class="row-label">ยอดคงเหลือ ณ ปัจจุบัน</td>
+          <td colspan="2"><input type="date" id="q8_b_date" style="max-width:180px;" onchange="onNativeDateChange('q8_b_date')"></td>
+          <td><input type="number" id="q8_b_remain" min="0" placeholder="0" oninput="updateProgress()"></td>
+        </tr>
+        <tr class="cat-header"><td colspan="4">งานขัดข้อง (ตามแบบหมายอักษร จ.)</td></tr>
+        <tr>
+          <td class="row-label">รับมอบ</td>
+          <td><input type="number" id="q8_c1" min="0" placeholder="0" oninput="calcTotal('q8_c')"></td>
+          <td><input type="number" id="q8_c2" min="0" placeholder="0" oninput="calcTotal('q8_c')"></td>
+          <td><input type="number" id="q8_c_total" readonly style="background:#f0f4f8;font-weight:700;"></td>
+        </tr>
+        <tr>
+          <td class="row-label">ยอดคงเหลือ ณ ปัจจุบัน</td>
+          <td colspan="2"><input type="date" id="q8_c_date" style="max-width:180px;" onchange="onNativeDateChange('q8_c_date')"></td>
+          <td><input type="number" id="q8_c_remain" min="0" placeholder="0" oninput="updateProgress()"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">9</span>
+      <div class="q-title">เมื่อสิ้นสุดโครงการศูนย์เดินสำรวจฯ ส่งมอบงานให้สำนักงานที่ดินแล้ว ในปีงบประมาณถัดไป ศูนย์ฯ มีการมารับคืนงานที่ส่งมอบกลับไปดำเนินการต่อหรือไม่ <span class="req">*</span></div>
+    </div>
+    <div class="options">
+      <label class="opt-label" onclick="toggleSub('q9-sub', 'q9-yes', this)">
+        <input type="radio" name="q9" value="มี" id="q9-yes" onchange="updateProgress()"> มี
+      </label>
+      <div class="sub-group" id="q9-sub">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div class="sub-label">ปีงบประมาณ พ.ศ.</div>
+            <input type="number" id="q9_year" min="0" placeholder="เช่น 2567">
+          </div>
+          <div>
+            <div class="sub-label">จำนวน (แปลง)</div>
+            <input type="number" id="q9_count" min="0" placeholder="0">
+          </div>
+        </div>
+        <div>
+          <div class="sub-label">เหตุผล</div>
+          <textarea id="q9_reason" placeholder="ระบุเหตุผล..." rows="2"></textarea>
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q9-sub', this)">
+        <input type="radio" name="q9" value="ไม่มี" onchange="updateProgress()"> ไม่มี
+      </label>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">10</span>
+      <div class="q-title">สำนักงานที่ดินมีโฉนดที่ดินค้างแจก / ค้างลงนาม ที่เก็บไว้ตั้งแต่ปีงบประมาณใด <span class="req">*</span></div>
+    </div>
+    <div class="options">
+      <label class="opt-label" onclick="toggleSub('q10-sub', 'q10-yes', this)">
+        <input type="radio" name="q10" value="มี" id="q10-yes" onchange="updateProgress()"> มี
+      </label>
+      <div class="sub-group" id="q10-sub">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div>
+            <div class="sub-label">ตั้งแต่ปี พ.ศ.</div>
+            <input type="number" id="q10_from" min="0" placeholder="เช่น 2560">
+          </div>
+          <div>
+            <div class="sub-label">ถึงปี พ.ศ.</div>
+            <input type="number" id="q10_to" min="0" placeholder="เช่น 2568">
+          </div>
+          <div>
+            <div class="sub-label">จำนวน (แปลง)</div>
+            <input type="number" id="q10_count" min="0" placeholder="0">
+          </div>
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q10-sub', this)">
+        <input type="radio" name="q10" value="ไม่มี" onchange="updateProgress()"> ไม่มี
+      </label>
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">11</span>
+      <div class="q-title">ทุกสิ้นเดือน สำนักงานที่ดินรายงานข้อมูลการแจกโฉนดที่ดิน โฉนดที่ดินค้างแจก / ค้างลงนาม งานขัดข้อง ที่รับจากศูนย์เดินสำรวจให้กรมที่ดินทราบหรือไม่ และเก็บข้อมูลจากแหล่งใด <span class="req">*</span></div>
+    </div>
+    <div class="options">
+      <label class="opt-label" onclick="toggleSub('q11-sub', 'q11-report', this)">
+        <input type="radio" name="q11" value="รายงาน" id="q11-report" onchange="updateProgress()"> รายงาน
+      </label>
+      <div class="sub-group" id="q11-sub">
+        <div>
+          <div class="sub-label">แหล่งข้อมูล</div>
+          <input type="text" id="q11_source" placeholder="ระบุแหล่งข้อมูล...">
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q11-sub', this)">
+        <input type="radio" name="q11" value="ไม่รายงาน" onchange="updateProgress()"> ไม่รายงาน
+      </label>
+      <label class="opt-label" onclick="hideSub('q11-sub', this)">
+        <input type="radio" name="q11" value="รายงานเฉพาะออกโฉนดเฉพาะราย" onchange="updateProgress()"> รายงานเฉพาะงานออกโฉนดที่ดินเฉพาะรายที่สำนักงานที่ดินดำเนินการเอง
+      </label>
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">12</span>
+      <div class="q-title">จำนวนโฉนดที่ดินค้างแจก / ค้างลงนาม และงานขัดข้องที่รับจากศูนย์เดินสำรวจ คงเหลือทุกสิ้นเดือนตามข้อ 11 ตรงกับงานที่มีอยู่จริงหรือไม่ <span class="req">*</span></div>
+    </div>
+    <div class="options">
+      <label class="opt-label" onclick="hideSub('q12-sub', this)">
+        <input type="radio" name="q12" value="ตรงกัน" onchange="updateProgress()"> ตรงกัน
+      </label>
+      <label class="opt-label" onclick="toggleSub('q12-sub', 'q12-no', this)">
+        <input type="radio" name="q12" value="ไม่ตรงกัน" id="q12-no" onchange="updateProgress()"> ไม่ตรงกัน
+      </label>
+      <div class="sub-group" id="q12-sub">
+        <div style="font-weight:600;font-size:13px;margin-bottom:8px;">งานที่มีอยู่จริง</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div class="sub-label">โฉนดค้างแจก/ค้างลงนาม (แปลง)</div>
+            <input type="number" id="q12_deed" min="0" placeholder="0" oninput="calcQ12()">
+          </div>
+          <div>
+            <div class="sub-label">งานขัดข้อง (แปลง)</div>
+            <input type="number" id="q12_block" min="0" placeholder="0" oninput="calcQ12()">
+          </div>
+          <div>
+            <div class="sub-label">รวม (แปลง)</div>
+            <input type="number" id="q12_total" readonly placeholder="0" style="background:#f0f4f8;font-weight:700;">
+          </div>
+          <div>
+            <div class="sub-label">ตามบัญชีคุมฯ (แปลง)</div>
+            <input type="number" id="q12_book" min="0" placeholder="0" oninput="calcQ12()">
+          </div>
+          <div>
+            <div class="sub-label">ผลต่าง (แปลง)</div>
+            <input type="number" id="q12_diff" readonly placeholder="0" style="background:#f0f4f8;font-weight:700;">
+          </div>
+        </div>
+      </div>
+      <label class="opt-label" onclick="hideSub('q12-sub', this)">
+        <input type="radio" name="q12" value="ไม่ทราบ" onchange="updateProgress()"> ไม่ทราบ
+      </label>
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="q-card">
+    <div class="q-header">
+      <span class="q-num">13</span>
+      <div class="q-title">ปัญหาอุปสรรคที่เกิดขึ้นจากการดำเนินการ <span class="req">*</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="sub-label">การรับมอบโฉนดที่ดิน <span class="req">*</span></div>
+        <textarea id="q13_receive" placeholder="ระบุปัญหา/อุปสรรค..." rows="3" oninput="updateProgress()"></textarea>
+      </div>
+      <div>
+        <div class="sub-label">การจัดเก็บ <span class="req">*</span></div>
+        <textarea id="q13_store" placeholder="ระบุปัญหา/อุปสรรค..." rows="3" oninput="updateProgress()"></textarea>
+      </div>
+      <div>
+        <div class="sub-label">การแจกโฉนดที่ดิน <span class="req">*</span></div>
+        <textarea id="q13_distribute" placeholder="ระบุปัญหา/อุปสรรค..." rows="3" oninput="updateProgress()"></textarea>
+      </div>
+      <div>
+        <div class="sub-label">การดำเนินการของโฉนดค้างลงนาม / งานขัดข้อง <span class="req">*</span></div>
+        <textarea id="q13_pending" placeholder="ระบุปัญหา/อุปสรรค..." rows="3" oninput="updateProgress()"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="btn-submit" onclick="submitForm()">ส่งแบบสอบถาม</button>
+  </div>
+
+
+</div>
+
+</div>
+
+<div id="successPage" style="display:none; min-height:100vh; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:32px 20px; background:var(--gray-bg);">
+  <div style="width:64px;height:64px;border-radius:50%;background:var(--green-light);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--green);margin-bottom:16px;">✓</div>
+  <h3 style="color:var(--green); font-size:20px; margin-bottom:10px;">ส่งแบบสอบถามเรียบร้อยแล้ว</h3>
+  <p style="color:var(--text-muted); font-size:14px; line-height:1.8; max-width:420px;">ขอบคุณที่ให้ความร่วมมือในการตอบแบบสอบถาม<br>ข้อมูลของท่านจะถูกนำไปใช้เพื่อประโยชน์ในการตรวจสอบต่อไป</p>
+</div>
+
+<script>
+// ⬇️ วางลิงก์ Web App ที่ได้จากการ Deploy Google Apps Script ตรงนี้ (ดูวิธีทำในคำแนะนำ)
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJmHAc-2PIyLvcwl63zKfFyEABfs2CoKN1CSHAG9Ydh9FmGi5FSc2Y3PpXnb9f_gI/exec';
+
+// ข้อมูลรายชื่อสำนักงานที่ดิน แยกตามจังหวัด (จังหวัด + สาขา + ส่วนแยก)
+const officeData = {"ลำปาง": ["สำนักงานที่ดินจังหวัดลำปาง", "สนง.ที่ดินจังหวัดลำปาง สาขาเกาะคา", "สนง.ที่ดินจังหวัดลำปาง สาขางาว", "สนง.ที่ดินจังหวัดลำปาง สาขาแจ้ห่ม", "สนง.ที่ดินจังหวัดลำปาง สาขาเถิน", "สนง.ที่ดินจังหวัดลำปาง สาขาแม่ทะ", "สนง.ที่ดินจังหวัดลำปาง สาขาแม่พริก", "สนง.ที่ดินจังหวัดลำปาง สาขาวังเหนือ", "สนง.ที่ดินจังหวัดลำปาง สาขาสบปราบ", "สนง.ที่ดินจังหวัดลำปาง สาขาเสริมงาม", "สนง.ที่ดินจังหวัดลำปาง สาขาห้างฉัตร"], "แพร่": ["สำนักงานที่ดินจังหวัดแพร่", "สนง.ที่ดินจังหวัดแพร่ สาขาร้องกวาง", "สนง.ที่ดินจังหวัดแพร่ สาขาลอง", "สนง.ที่ดินจังหวัดแพร่ สาขาวังชิ้น", "สนง.ที่ดินจังหวัดแพร่ สาขาสอง", "สนง.ที่ดินจังหวัดแพร่ สาขาสูงเม่น"], "น่าน": ["สำนักงานที่ดินจังหวัดน่าน", "สนง.ที่ดินจังหวัดน่าน สาขาเชียงกลาง", "สนง.ที่ดินจังหวัดน่าน สาขาท่าวังผา", "สนง.ที่ดินจังหวัดน่าน สาขานาน้อย", "สนง.ที่ดินจังหวัดน่าน สาขาปัว", "สนง.ที่ดินจังหวัดน่าน สาขาเวียงสา"], "ลำพูน": ["สำนักงานที่ดินจังหวัดลำพูน", "สนง.ที่ดินจังหวัดลำพูน สาขาบ้านโฮ่ง", "สนง.ที่ดินจังหวัดลำพูน สาขาป่าซาง", "สนง.ที่ดินจังหวัดลำพูน สาขาแม่ทา", "สนง.ที่ดินจังหวัดลำพูน สาขาลี้", "สนง.ที่ดินจังหวัดลำพูน ส่วนแยกบ้านธิ"], "เชียงราย": ["สำนักงานที่ดินจังหวัดเชียงราย", "สนง.ที่ดินจังหวัดเชียงราย สาขาเชียงของ", "สนง.ที่ดินจังหวัดเชียงราย สาขาเชียงแสน", "สนง.ที่ดินจังหวัดเชียงราย สาขาเทิง", "สนง.ที่ดินจังหวัดเชียงราย สาขาพาน", "สนง.ที่ดินจังหวัดเชียงราย สาขาแม่จัน", "สนง.ที่ดินจังหวัดเชียงราย สาขาแม่สาย", "สนง.ที่ดินจังหวัดเชียงราย สาขาเวียงชัย", "สนง.ที่ดินจังหวัดเชียงราย สาขาเวียงป่าเป้า", "สนง.ที่ดินจังหวัดเชียงราย ส่วนแยกพญาเม็งราย", "สนง.ที่ดินจังหวัดเชียงราย ส่วนแยกป่าแดด", "สนง.ที่ดินจังหวัดเชียงราย ส่วนแยกแม่สรวย"], "เพชรบูรณ์": ["สำนักงานที่ดินจังหวัดเพชรบูรณ์", "สนง.ที่ดินจังหวัดเพชรบูรณ์ สาขาชนแดน", "สนง.ที่ดินจังหวัดเพชรบูรณ์ สาขาวิเชียรบุรี", "สนง.ที่ดินจังหวัดเพชรบูรณ์ สาขาหนองไผ่", "สนง.ที่ดินจังหวัดเพชรบูรณ์ สาขาหล่มเก่า", "สนง.ที่ดินจังหวัดเพชรบูรณ์ สาขาหล่มสัก", "สนง.ที่ดินจังหวัดเพชรบูรณ์ ส่วนแยกเขาค้อ"], "ชัยภูมิ": ["สำนักงานที่ดินจังหวัดชัยภูมิ", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาเกษตรสมบูรณ์", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาแก้งคร้อ", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาคอนสวรรค์", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาจัตุรัส", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาบ้านเขว้า", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาบำเหน็จณรงค์", "สนง.ที่ดินจังหวัดชัยภูมิ สาขาภูเขียว"], "ขอนแก่น": ["สำนักงานที่ดินจังหวัดขอนแก่น", "สนง.ที่ดินจังหวัดขอนแก่น สาขากระนวน", "สนง.ที่ดินจังหวัดขอนแก่น สาขาชุมแพ", "สนง.ที่ดินจังหวัดขอนแก่น สาขาน้ำพอง", "สนง.ที่ดินจังหวัดขอนแก่น สาขาบ้านไผ่", "สนง.ที่ดินจังหวัดขอนแก่น สาขาบ้านฝาง", "สนง.ที่ดินจังหวัดขอนแก่น สาขาพระยืน", "สนง.ที่ดินจังหวัดขอนแก่น สาขาพล", "สนง.ที่ดินจังหวัดขอนแก่น สาขาภูเวียง", "สนง.ที่ดินจังหวัดขอนแก่น สาขามัญจาคีรี", "สนง.ที่ดินจังหวัดขอนแก่น สาขาแวงน้อย", "สนง.ที่ดินจังหวัดขอนแก่น สาขาสีชมพู", "สนง.ที่ดินจังหวัดขอนแก่น สาขาหนองเรือ", "สนง.ที่ดินจังหวัดขอนแก่น สาขาหนองสองห้อง", "สนง.ที่ดินจังหวัดขอนแก่น ส่วนแยกอุบลรัตน์"], "กาญจนบุรี": ["สำนักงานที่ดินจังหวัดกาญจนบุรี", "สนง.ที่ดินจังหวัดกาญจนบุรี สาขาทองผาภูมิ", "สนง.ที่ดินจังหวัดกาญจนบุรี สาขาบ่อพลอย", "สนง.ที่ดินจังหวัดกาญจนบุรี สาขาท่ามะกา", "สนง.ที่ดินจังหวัดกาญจนบุรี สาขาท่าม่วง", "สนง.ที่ดินจังหวัดกาญจนบุรี สาขาพนมทวน", "สนง.ที่ดินจังหวัดกาญจนบุรี ส่วนแยกเลาขวัญ"], "มหาสารคาม": ["สำนักงานที่ดินจังหวัดมหาสารคาม", "สนง.ที่ดินจังหวัดมหาสารคาม สาขากันทรวิชัย", "สนง.ที่ดินจังหวัดมหาสารคาม สาขาโกสุมพิสัย", "สนง.ที่ดินจังหวัดมหาสารคาม สาขาเชียงยืน", "สนง.ที่ดินจังหวัดมหาสารคาม สาขานาเชือก", "สนง.ที่ดินจังหวัดมหาสารคาม สาขาบรบือ", "สนง.ที่ดินจังหวัดมหาสารคาม สาขาพยัคฆภูมิพิสัย", "สนง.ที่ดินจังหวัดมหาสารคาม สาขาวาปีปทุม"], "สุพรรณบุรี": ["สำนักงานที่ดินจังหวัดสุพรรณบุรี", "สนง.ที่ดินจังหวัดสุพรรณบุรี สาขาดอนเจดีย์", "สนง.ที่ดินจังหวัดสุพรรณบุรี สาขาเดิมบางนางบวช", "สนง.ที่ดินจังหวัดสุพรรณบุรี สาขาศรีประจันต์", "สนง.ที่ดินจังหวัดสุพรรณบุรี สาขาสองพี่น้อง", "สนง.ที่ดินจังหวัดสุพรรณบุรี สาขาสามชุก", "สนง.ที่ดินจังหวัดสุพรรณบุรี สาขาอู่ทอง"], "ราชบุรี": ["สำนักงานที่ดินจังหวัดราชบุรี", "สนง.ที่ดินจังหวัดราชบุรี สาขาจอมบึง", "สนง.ที่ดินจังหวัดราชบุรี สาขาบ้านโป่ง", "สนง.ที่ดินจังหวัดราชบุรี สาขาปากท่อ", "สนง.ที่ดินจังหวัดราชบุรี สาขาโพธาราม", "สนง.ที่ดินจังหวัดราชบุรี สาขาสวนผึ้ง"], "เพชรบุรี": ["สำนักงานที่ดินจังหวัดเพชรบุรี", "สนง.ที่ดินจังหวัดเพชรบุรี สาขาเขาย้อย", "สนง.ที่ดินจังหวัดเพชรบุรี สาขาชะอำ", "สนง.ที่ดินจังหวัดเพชรบุรี สาขาท่ายาง"], "นครพนม": ["สำนักงานที่ดินจังหวัดนครพนม", "สนง.ที่ดินจังหวัดนครพนม สาขาท่าอุเทน", "สนง.ที่ดินจังหวัดนครพนม สาขาธาตุพนม", "สนง.ที่ดินจังหวัดนครพนม สาขานาแก", "สนง.ที่ดินจังหวัดนครพนม สาขาเรณูนคร", "สนง.ที่ดินจังหวัดนครพนม สาขาศรีสงคราม", "สนง.ที่ดินจังหวัดนครพนม สาขานาหว้า", "สนง.ที่ดินจังหวัดนครพนม ส่วนแยกบ้านแพง"], "สกลนคร": ["สำนักงานที่ดินจังหวัดสกลนคร", "สนง.ที่ดินจังหวัดสกลนคร สาขาพรรณานิคม", "สนง.ที่ดินจังหวัดสกลนคร สาขาพังโคน", "สนง.ที่ดินจังหวัดสกลนคร สาขาวานรนิวาส", "สนง.ที่ดินจังหวัดสกลนคร สาขาวาริชภูมิ", "สนง.ที่ดินจังหวัดสกลนคร สาขาสว่างแดนดิน", "สนง.ที่ดินจังหวัดสกลนคร สาขาอากาศอำนวย", "สนง.ที่ดินจังหวัดสกลนคร สาขาบ้านม่วง", "สนง.ที่ดินจังหวัดสกลนคร สาขากุสุมาลย์"], "บึงกาฬ": ["สำนักงานที่ดินจังหวัดบึงกาฬ", "สนง.ที่ดินจังหวัดบึงกาฬ สาขาเซกา"], "อุดรธานี": ["สำนักงานที่ดินจังหวัดอุดรธานี", "สนง.ที่ดินจังหวัดอุดรธานี สาขากุดจับ", "สนง.ที่ดินจังหวัดอุดรธานี สาขากุมภวาปี", "สนง.ที่ดินจังหวัดอุดรธานี สาขาบ้านดุง", "สนง.ที่ดินจังหวัดอุดรธานี สาขาบ้านผือ", "สนง.ที่ดินจังหวัดอุดรธานี สาขาเพ็ญ", "สนง.ที่ดินจังหวัดอุดรธานี สาขาหนองวัวซอ", "สนง.ที่ดินจังหวัดอุดรธานี สาขาหนองหาน", "สนง.ที่ดินจังหวัดอุดรธานี สาขาศรีธาตุ", "สนง.ที่ดินจังหวัดอุดรธานี ส่วนแยกโนนสะอาด", "สนง.ที่ดินจังหวัดอุดรธานี ส่วนแยกน้ำโสม", "สนง.ที่ดินจังหวัดอุดรธานี ส่วนแยกทุ่งฝน"], "หนองคาย": ["สำนักงานที่ดินจังหวัดหนองคาย", "สนง.ที่ดินจังหวัดหนองคาย สาขาท่าบ่อ", "สนง.ที่ดินจังหวัดหนองคาย สาขาโพนพิสัย"], "หนองบัวลำภู": ["สำนักงานที่ดินจังหวัดหนองบัวลำภู", "สนง.ที่ดินจังหวัดหนองบัวลำภู สาขาศรีบุญเรือง"], "กาฬสินธุ์": ["สำนักงานที่ดินจังหวัดกาฬสินธุ์", "สนง.ที่ดินจังหวัดกาฬสินธุ์ สาขากมลาไสย", "สนง.ที่ดินจังหวัดกาฬสินธุ์ สาขากุฉินารายณ์", "สนง.ที่ดินจังหวัดกาฬสินธุ์ สาขายางตลาด", "สนง.ที่ดินจังหวัดกาฬสินธุ์ สาขาสมเด็จ", "สนง.ที่ดินจังหวัดกาฬสินธุ์ สาขาหนองกุงศรี"], "มุกดาหาร": ["สำนักงานที่ดินจังหวัดมุกดาหาร", "สนง.ที่ดินจังหวัดมุกดาหาร สาขาคำชะอี"], "อุบลราชธานี": ["สำนักงานที่ดินจังหวัดอุบลราชธานี", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาตระการพืชผล", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาเขมราฐ", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาเขื่องใน", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาเดชอุดม", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาน้ำยืน", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาพิบูลมังสาหาร", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาม่วงสามสิบ", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาวารินชำราบ", "สนง.ที่ดินจังหวัดอุบลราชธานี สาขาศรีเมืองใหม่"], "ร้อยเอ็ด": ["สำนักงานที่ดินจังหวัดร้อยเอ็ด", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาเกษตรวิสัย", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาจตุรพักตรพิมาน", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาธวัชบุรี", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาปทุมรัตต์", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาพนมไพร", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาโพนทอง", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาสุวรรณภูมิ", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาเสลภูมิ", "สนง.ที่ดินจังหวัดร้อยเอ็ด สาขาอาจสามารถ"], "ยโสธร": ["สำนักงานที่ดินจังหวัดยโสธร", "สนง.ที่ดินจังหวัดยโสธร สาขากุดชุม", "สนง.ที่ดินจังหวัดยโสธร สาขาคำเขื่อนแก้ว", "สนง.ที่ดินจังหวัดยโสธร สาขามหาชนะชัย", "สนง.ที่ดินจังหวัดยโสธร สาขาเลิงนกทา"], "ศรีสะเกษ": ["สำนักงานที่ดินจังหวัดศรีสะเกษ", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขากันทรลักษ์", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขากันทรารมย์", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขาขุขันธ์", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขาขุนหาญ", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขาปรางค์กู่", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขาราษีไศล", "สนง.ที่ดินจังหวัดศรีสะเกษ สาขาอุทุมพรพิสัย"], "อำนาจเจริญ": ["สำนักงานที่ดินจังหวัดอำนาจเจริญ", "สนง.ที่ดินจังหวัดอำนาจเจริญ สาขาหัวตะพาน", "สนง.ที่ดินจังหวัดอำนาจเจริญ ส่วนแยกพนา"], "สุรินทร์": ["สำนักงานที่ดินจังหวัดสุรินทร์", "สนง.ที่ดินจังหวัดสุรินทร์ สาขาจอมพระ", "สนง.ที่ดินจังหวัดสุรินทร์ สาขาชุมพลบุรี", "สนง.ที่ดินจังหวัดสุรินทร์ สาขาท่าตูม", "สนง.ที่ดินจังหวัดสุรินทร์ สาขาปราสาท", "สนง.ที่ดินจังหวัดสุรินทร์ สาขารัตนบุรี", "สนง.ที่ดินจังหวัดสุรินทร์ สาขาศีขรภูมิ", "สนง.ที่ดินจังหวัดสุรินทร์ สาขาสังขะ", "สนง.ที่ดินจังหวัดสุรินทร์ ส่วนแยกสำโรงทาบ"], "บุรีรัมย์": ["สำนักงานที่ดินจังหวัดบุรีรัมย์", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขากระสัง", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขาคูเมือง", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขานางรอง", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขาประโคนชัย", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขาพุทไธสง", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขาลำปลายมาศ", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขาสตึก", "สนง.ที่ดินจังหวัดบุรีรัมย์ สาขาละหานทราย"], "สุราษฎร์ธานี": ["สำนักงานที่ดินจังหวัดสุราษฎร์ธานี", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขากาญจนดิษฐ์", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาเกาะสมุย", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาไชยา", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาบ้านตาขุน", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาบ้านนาสาร", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาพระแสง", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาพุนพิน", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาเวียงสระ", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี สาขาท่าฉาง", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี ส่วนแยกดอนสัก", "สนง.ที่ดินจังหวัดสุราษฎร์ธานี ส่วนแยกเกาะพะงัน"], "กระบี่": ["สำนักงานที่ดินจังหวัดกระบี่", "สนง.ที่ดินจังหวัดกระบี่ สาขาอ่าวลึก", "สนง.ที่ดินจังหวัดกระบี่ สาขาคลองท่อม", "สนง.ที่ดินจังหวัดกระบี่ ส่วนแยกเกาะลันตา"], "ระนอง": ["สำนักงานที่ดินจังหวัดระนอง"], "พังงา": ["สำนักงานที่ดินจังหวัดพังงา", "สนง.ที่ดินจังหวัดพังงา สาขาตะกั่วทุ่ง", "สนง.ที่ดินจังหวัดพังงา สาขาตะกั่วป่า", "สนง.ที่ดินจังหวัดพังงา สาขาท้ายเหมือง", "สนง.ที่ดินจังหวัดพังงา ส่วนแยกเกาะยาว"], "ชุมพร": ["สำนักงานที่ดินจังหวัดชุมพร", "สนง.ที่ดินจังหวัดชุมพร สาขาท่าแซะ", "สนง.ที่ดินจังหวัดชุมพร สาขาปะทิว", "สนง.ที่ดินจังหวัดชุมพร สาขาสวี", "สนง.ที่ดินจังหวัดชุมพร สาขาหลังสวน"], "สงขลา": ["สำนักงานที่ดินจังหวัดสงขลา", "สนง.ที่ดินจังหวัดสงขลา สาขาจะนะ", "สนง.ที่ดินจังหวัดสงขลา สาขาเทพา", "สนง.ที่ดินจังหวัดสงขลา สาขานาทวี", "สนง.ที่ดินจังหวัดสงขลา สาขาระโนด", "สนง.ที่ดินจังหวัดสงขลา สาขารัตภูมิ", "สนง.ที่ดินจังหวัดสงขลา สาขาสทิงพระ", "สนง.ที่ดินจังหวัดสงขลา สาขาสะเดา", "สนง.ที่ดินจังหวัดสงขลา สาขาสิงหนคร", "สนง.ที่ดินจังหวัดสงขลา สาขาหาดใหญ่", "สนง.ที่ดินจังหวัดสงขลา สาขาบางกล่ำ", "สนง.ที่ดินจังหวัดสงขลา สาขาสะบ้าย้อย"], "พัทลุง": ["สำนักงานที่ดินจังหวัดพัทลุง", "สนง.ที่ดินจังหวัดพัทลุง สาขาควนขนุน", "สนง.ที่ดินจังหวัดพัทลุง สาขาตะโหมด", "สนง.ที่ดินจังหวัดพัทลุง สาขาปากพะยูน"], "นครศรีธรรมราช": ["สำนักงานที่ดินจังหวัดนครศรีธรรมราช", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาฉวาง", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาชะอวด", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาเชียรใหญ่", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาท่าศาลา", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาทุ่งสง", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาทุ่งใหญ่", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาปากพนัง", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาร่อนพิบูลย์", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาลานสกา", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาสิชล", "สนง.ที่ดินจังหวัดนครศรีธรรมราช สาขาหัวไทร", "สนง.ที่ดินจังหวัดนครศรีธรรมราช ส่วนแยกพรหมคีรี"], "สตูล": ["สำนักงานที่ดินจังหวัดสตูล", "สนง.ที่ดินจังหวัดสตูล สาขาละงู"], "ตรัง": ["สำนักงานที่ดินจังหวัดตรัง", "สนง.ที่ดินจังหวัดตรัง สาขากันตัง", "สนง.ที่ดินจังหวัดตรัง สาขาย่านตาขาว", "สนง.ที่ดินจังหวัดตรัง สาขาสิเกา", "สนง.ที่ดินจังหวัดตรัง สาขาห้วยยอด"]};
+
+function onProvinceChange() {
+  const province = document.getElementById('officeProvince').value;
+  const officeSelect = document.getElementById('officeName');
+  officeSelect.innerHTML = '';
+  if (!province || !officeData[province]) {
+    officeSelect.innerHTML = '<option value="">-- กรุณาเลือกจังหวัดก่อน --</option>';
+    officeSelect.disabled = true;
+  } else {
+    officeSelect.innerHTML = '<option value="">-- เลือกสำนักงานที่ดิน --</option>';
+    officeData[province].forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      officeSelect.appendChild(opt);
+    });
+    officeSelect.disabled = false;
+  }
+  updateProgress();
+}
+
+function getRadioVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+function getCheckedVals(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value).join(', ');
+}
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+function getOtherVal(containerId) {
+  const el = document.querySelector('#' + containerId + ' input');
+  return el ? el.value.trim() : '';
+}
+function isOtherFilled(name, containerId) {
+  const selected = document.querySelector(`input[name="${name}"][value="อื่นๆ"]`);
+  if (!selected || !selected.checked) return true; // ไม่ได้เลือก "อื่นๆ" ไม่ต้องบังคับ
+  const input = document.querySelector('#' + containerId + ' input');
+  return !!(input && input.value.trim());
+}
+
+function collectFormData() {
+  return {
+    'วันที่/เวลาที่ส่ง': new Date().toLocaleString('th-TH'),
+    'จังหวัด': getVal('officeProvince'),
+    'สำนักงานที่ดิน': getVal('officeName'),
+    'ข้อ1 มีคำสั่งมอบหมายเจ้าหน้าที่รับผิดชอบหรือไม่': getRadioVal('q1'),
+    'ข้อ1 ฝ่าย/งาน': getVal('q1_dept'),
+    'ข้อ1 ชื่อผู้รับผิดชอบ': getVal('q1_name'),
+    'ข้อ2 มีการตรวจสอบจำนวนแปลงที่รับมอบหรือไม่': getRadioVal('q2'),
+    'ข้อ2 อื่นๆ ระบุ': getOtherVal('q2other'),
+    'ข้อ3 สถานที่จัดเก็บ': getVal('q3'),
+    'ข้อ4 สาเหตุงานค้างแจก': getCheckedVals('q4a'),
+    'ข้อ4 สาเหตุงานค้างแจก อื่นๆ': getOtherVal('q4a-other'),
+    'ข้อ4 สาเหตุงานค้างลงนาม': getCheckedVals('q4b'),
+    'ข้อ4 สาเหตุงานค้างลงนาม อื่นๆ': getOtherVal('q4b-other'),
+    'ข้อ4 สาเหตุงานขัดข้อง': getCheckedVals('q4c'),
+    'ข้อ4 สาเหตุงานขัดข้อง อื่นๆ': getOtherVal('q4c-other'),
+    'ข้อ5 โฉนดค้างแจก/ค้างลงนาม มีระบบควบคุมหรือไม่': getRadioVal('q5a_hasorno'),
+    'ข้อ5 วิธีควบคุม (ค้างแจก/ค้างลงนาม)': getRadioVal('q5a'),
+    'ข้อ5 วิธีควบคุม (ค้างแจก/ค้างลงนาม) อื่นๆ': getOtherVal('q5a-other'),
+    'ข้อ5 งานขัดข้อง มีระบบควบคุมหรือไม่': getRadioVal('q5b_hasorno'),
+    'ข้อ5 วิธีควบคุม (งานขัดข้อง)': getRadioVal('q5b'),
+    'ข้อ5 วิธีควบคุม (งานขัดข้อง) อื่นๆ': getOtherVal('q5b-other'),
+    'ข้อ6 วิธีควบคุมกรณีงานขัดข้องส่งต่อผู้เกี่ยวข้อง': getVal('q6'),
+    'ข้อ7 ระบบควบคุมการแจกโฉนดที่ดิน': getRadioVal('q7'),
+    'ข้อ7 อื่นๆ ระบุ': getOtherVal('q7other'),
+    'ข้อ8 ค้างแจก รับมอบ ปีงบ2567 (แปลง)': getVal('q8_a1'),
+    'ข้อ8 ค้างแจก รับมอบ ปีงบ2568 (แปลง)': getVal('q8_a2'),
+    'ข้อ8 ค้างแจก รวมทั้งสิ้น (แปลง)': getVal('q8_a_total'),
+    'ข้อ8 ค้างแจก วันที่ยอดคงเหลือ': getThaiDateVal('q8_a_date'),
+    'ข้อ8 ค้างแจก ยอดคงเหลือ ณ ปัจจุบัน (แปลง)': getVal('q8_a_remain'),
+    'ข้อ8 ค้างลงนาม รับมอบ ปีงบ2567 (แปลง)': getVal('q8_b1'),
+    'ข้อ8 ค้างลงนาม รับมอบ ปีงบ2568 (แปลง)': getVal('q8_b2'),
+    'ข้อ8 ค้างลงนาม รวมทั้งสิ้น (แปลง)': getVal('q8_b_total'),
+    'ข้อ8 ค้างลงนาม วันที่ยอดคงเหลือ': getThaiDateVal('q8_b_date'),
+    'ข้อ8 ค้างลงนาม ยอดคงเหลือ ณ ปัจจุบัน (แปลง)': getVal('q8_b_remain'),
+    'ข้อ8 งานขัดข้อง รับมอบ ปีงบ2567 (แปลง)': getVal('q8_c1'),
+    'ข้อ8 งานขัดข้อง รับมอบ ปีงบ2568 (แปลง)': getVal('q8_c2'),
+    'ข้อ8 งานขัดข้อง รวมทั้งสิ้น (แปลง)': getVal('q8_c_total'),
+    'ข้อ8 งานขัดข้อง วันที่ยอดคงเหลือ': getThaiDateVal('q8_c_date'),
+    'ข้อ8 งานขัดข้อง ยอดคงเหลือ ณ ปัจจุบัน (แปลง)': getVal('q8_c_remain'),
+    'ข้อ9 ศูนย์ฯ มารับคืนงานที่ส่งมอบหรือไม่': getRadioVal('q9'),
+    'ข้อ9 ปีงบประมาณที่รับคืน พ.ศ.': getVal('q9_year'),
+    'ข้อ9 จำนวนที่รับคืน (แปลง)': getVal('q9_count'),
+    'ข้อ9 เหตุผลที่รับคืน': getVal('q9_reason'),
+    'ข้อ10 มีโฉนดค้างแจก/ค้างลงนามเก่าหรือไม่': getRadioVal('q10'),
+    'ข้อ10 ตั้งแต่ปี พ.ศ.': getVal('q10_from'),
+    'ข้อ10 ถึงปี พ.ศ.': getVal('q10_to'),
+    'ข้อ10 จำนวน (แปลง)': getVal('q10_count'),
+    'ข้อ11 รายงานกรมทุกสิ้นเดือนหรือไม่': getRadioVal('q11'),
+    'ข้อ11 แหล่งข้อมูล': getVal('q11_source'),
+    'ข้อ12 ยอดคงเหลือตรงกับงานจริงหรือไม่': getRadioVal('q12'),
+    'ข้อ12 โฉนดค้างแจก/ค้างลงนามจริง (แปลง)': getVal('q12_deed'),
+    'ข้อ12 งานขัดข้องจริง (แปลง)': getVal('q12_block'),
+    'ข้อ12 รวม (แปลง)': getVal('q12_total'),
+    'ข้อ12 ตามบัญชีคุมฯ (แปลง)': getVal('q12_book'),
+    'ข้อ12 ผลต่าง (แปลง)': getVal('q12_diff'),
+    'ข้อ13 ปัญหา - การรับมอบโฉนดที่ดิน': getVal('q13_receive'),
+    'ข้อ13 ปัญหา - การจัดเก็บ': getVal('q13_store'),
+    'ข้อ13 ปัญหา - การแจกโฉนดที่ดิน': getVal('q13_distribute'),
+    'ข้อ13 ปัญหา - โฉนดค้างลงนาม/งานขัดข้อง': getVal('q13_pending')
+  };
+}
+
+function calcQ12() {
+  const deed = parseFloat(document.getElementById('q12_deed')?.value) || 0;
+  const block = parseFloat(document.getElementById('q12_block')?.value) || 0;
+  const book = parseFloat(document.getElementById('q12_book')?.value) || 0;
+  const total = deed + block;
+  const diff = total - book;
+  const totalEl = document.getElementById('q12_total');
+  const diffEl = document.getElementById('q12_diff');
+  if (totalEl) totalEl.value = (deed || block) ? total : '';
+  if (diffEl) diffEl.value = (deed || block || book) ? diff : '';
+  updateProgress();
+}
+
+function hideQ5aOthers(labelEl) {
+  document.getElementById('q5a-other').classList.remove('show');
+  document.querySelectorAll('input[name="q5a"]').forEach(r => {
+    r.closest('.opt-label')?.classList.remove('selected');
+  });
+  labelEl.classList.add('selected');
+}
+
+function hideQ5bOthers(labelEl) {
+  document.getElementById('q5b-other').classList.remove('show');
+  document.querySelectorAll('input[name="q5b"]').forEach(r => {
+    r.closest('.opt-label')?.classList.remove('selected');
+  });
+  labelEl.classList.add('selected');
+}
+
+function toggleSub(subId, radioId, labelEl) {
+  const sub = document.getElementById(subId);
+  if (sub) {
+    sub.classList.add('show');
+  }
+  document.querySelectorAll('.opt-label').forEach(l => {
+    if (l !== labelEl) l.classList.remove('selected');
+  });
+  labelEl.classList.add('selected');
+}
+
+function hideSub(subId, labelEl) {
+  const sub = document.getElementById(subId);
+  if (sub) sub.classList.remove('show');
+  document.querySelectorAll('.opt-label').forEach(l => {
+    if (l !== labelEl) l.classList.remove('selected');
+  });
+  labelEl.classList.add('selected');
+}
+
+function toggleOther(otherId, labelEl) {
+  const el = document.getElementById(otherId);
+  if (!el) return;
+  const cb = labelEl.querySelector('input[type=checkbox]');
+  if (cb) {
+    // checkbox: show the box only when this box is now checked
+    if (cb.checked) {
+      el.classList.add('show');
+    } else {
+      el.classList.remove('show');
+    }
+  } else {
+    // radio "อื่นๆ": selecting it always reveals the box
+    el.classList.add('show');
+  }
+  labelEl.classList.toggle('selected');
+}
+
+function hideOther(otherId, labelEl) {
+  const el = document.getElementById(otherId);
+  if (el) el.classList.remove('show');
+  document.querySelectorAll('.opt-label').forEach(l => {
+    if (l !== labelEl) l.classList.remove('selected');
+  });
+  labelEl.classList.add('selected');
+}
+
+function calcTotal(prefix) {
+  const v1 = parseFloat(document.getElementById(prefix+'1')?.value) || 0;
+  const v2 = parseFloat(document.getElementById(prefix+'2')?.value) || 0;
+  const total = document.getElementById(prefix+'_total');
+  if (total) total.value = v1 + v2 || '';
+  updateProgress();
+}
+
+function isQ13Complete() {
+  return ['q13_receive', 'q13_store', 'q13_distribute', 'q13_pending']
+    .every(id => document.getElementById(id)?.value.trim());
+}
+
+function updateProgress() {
+  let answered = 0;
+  const total = 14;
+  if (document.getElementById('officeName')?.value.trim()) answered++;
+  if (document.querySelector('input[name=q1]:checked')) answered++;
+  if (document.querySelector('input[name=q2]:checked')) answered++;
+  if (document.getElementById('q3')?.value.trim()) answered++;
+  if (document.querySelector('input[name=q4a]:checked')) answered++;
+  if (document.querySelector('input[name=q5a_hasorno]:checked')) answered++;
+  if (document.getElementById('q6')?.value.trim()) answered++;
+  if (document.querySelector('input[name="q7"]:checked')) answered++;
+  if (document.getElementById('q8_a1')?.value || document.getElementById('q8_b1')?.value) answered++;
+  if (document.querySelector('input[name=q9]:checked')) answered++;
+  if (document.querySelector('input[name=q10]:checked')) answered++;
+  if (document.querySelector('input[name=q11]:checked')) answered++;
+  if (document.querySelector('input[name=q12]:checked')) answered++;
+  if (isQ13Complete()) answered++;
+
+  const pct = Math.round((answered / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = answered + ' / ' + total + ' ข้อ';
+}
+
+function submitForm() {
+  const province = document.getElementById('officeProvince')?.value.trim();
+  if (!province) {
+    alert('กรุณาเลือกจังหวัดก่อนส่งแบบสอบถาม');
+    return;
+  }
+  const office = document.getElementById('officeName')?.value.trim();
+  if (!office) {
+    alert('กรุณาเลือกสำนักงานที่ดินก่อนส่งแบบสอบถาม');
+    return;
+  }
+  const q1 = document.querySelector('input[name=q1]:checked');
+  if (!q1) { alert('กรุณาตอบข้อ 1'); return; }
+
+  if (!isQ13Complete()) {
+    alert('กรุณาตอบข้อ 13 ให้ครบทุกข้อย่อย (การรับมอบโฉนดที่ดิน, การจัดเก็บ, การแจกโฉนดที่ดิน, การดำเนินการของโฉนดค้างลงนาม/งานขัดข้อง)');
+    document.getElementById('q13_receive')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const otherGroups = [
+    { name: 'q2',  container: 'q2other',   label: 'ข้อ 2' },
+    { name: 'q4a', container: 'q4a-other', label: 'ข้อ 4 (สาเหตุงานค้างแจก)' },
+    { name: 'q4b', container: 'q4b-other', label: 'ข้อ 4 (สาเหตุงานค้างลงนาม)' },
+    { name: 'q4c', container: 'q4c-other', label: 'ข้อ 4 (สาเหตุงานขัดข้อง)' },
+    { name: 'q5a', container: 'q5a-other', label: 'ข้อ 5 (วิธีควบคุมค้างแจก/ค้างลงนาม)' },
+    { name: 'q5b', container: 'q5b-other', label: 'ข้อ 5 (วิธีควบคุมงานขัดข้อง)' },
+    { name: 'q7',  container: 'q7other',   label: 'ข้อ 7' }
+  ];
+  for (const g of otherGroups) {
+    if (!isOtherFilled(g.name, g.container)) {
+      alert(`กรุณาระบุรายละเอียด "อื่นๆ" ใน${g.label} ห้ามเว้นว่าง`);
+      document.getElementById(g.container)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
+  const todayStr = new Date().toLocaleDateString('en-CA');
+  for (const id of ['q8_a_date', 'q8_b_date', 'q8_c_date']) {
+    const el = document.getElementById(id);
+    if (el && el.value && el.value > todayStr) {
+      alert('วันที่ยอดคงเหลือต้องไม่เกินวันปัจจุบัน กรุณาตรวจสอบข้อ 8');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
+  if (!SCRIPT_URL || SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE') {
+    alert('ยังไม่ได้ตั้งค่าลิงก์เชื่อมต่อ Google Sheet (SCRIPT_URL) กรุณาตรวจสอบกับผู้ดูแลแบบฟอร์ม');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-submit');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'กำลังส่งข้อมูล...';
+
+  const payload = collectFormData();
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors', // Apps Script Web App ไม่ส่ง CORS header กลับมา จึงต้องใช้โหมดนี้
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    document.getElementById('formPage').style.display = 'none';
+    document.getElementById('successPage').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = originalText;
+    alert('ส่งข้อมูลไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่อีกครั้ง');
+  });
+}
+
+// Init radio click highlight
+document.querySelectorAll('.opt-label').forEach(label => {
+  label.addEventListener('click', function() {
+    const radio = this.querySelector('input[type=radio]');
+    if (radio) {
+      const name = radio.getAttribute('name');
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+        r.closest('.opt-label')?.classList.remove('selected');
+      });
+      this.classList.add('selected');
+    }
+  });
+});
+
+// ==== แปลงวันที่เป็น พ.ศ. สำหรับบันทึกลง Google Sheet (q8_a_date / q8_b_date / q8_c_date) ====
+function getThaiDateVal(id) {
+  const isoStr = document.getElementById(id)?.value;
+  if (!isoStr) return '';
+  const [y, m, d] = isoStr.split('-');
+  return `${d}/${m}/${parseInt(y, 10) + 543}`;
+}
+
+function onNativeDateChange(id) {
+  updateProgress();
+}
+
+// จำกัดวันที่เลือกได้ไม่เกินวันปัจจุบัน
+(function() {
+  const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+  ['q8_a_date', 'q8_b_date', 'q8_c_date'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.max = today;
+  });
+})();
+</script>
+</body>
+</html>
